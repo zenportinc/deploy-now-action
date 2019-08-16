@@ -14,13 +14,13 @@ async function run() {
 
     const deployment = await deploy(`${repoDir}/${buildDir}`, zeitToken, JSON.parse(nowJson));
 
-    await postComment(deployment, githubToken);
+    await postComment(formatDeployment(deployment), githubToken);
   } catch (error) {
     core.setFailed(error.message);
   }
 }
 
-async function deploy(path: string, token: string, options: object) {
+async function deploy(path: string, token: string, options: object): Promise<object> {
   for await (const event of now.createLegacyDeployment(path, {
     token,
     ...options
@@ -34,6 +34,15 @@ async function deploy(path: string, token: string, options: object) {
         throw event.payload;
     }
   }
+
+  throw new Error('No deployment');
+}
+
+function formatDeployment(deployment: object): string {
+  // @ts-ignore
+  const { url } = deployment;
+
+  return `New deployment available on now!\n> http://${url}`;
 }
 
 async function postComment(body: string, token: string) {
