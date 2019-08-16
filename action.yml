@@ -1,10 +1,13 @@
-name: 'Node 12 Template Action'
-description: 'Get started with Node actions'
-author: 'GitHub'
-inputs: 
-  myInput:
-    description: 'Input to use'
-    default: 'world'
+name: 'Deploy now action'
+description: 'Deploy with now'
+author: 'Zenport'
+inputs:
+  zeit-token:
+    description: 'Zeit authentication token'
+    required: true
+  folder:
+    description: 'Folder to deploy'
+    required: false
 runs:
   using: 'node12'
   main: 'lib/main.js'
