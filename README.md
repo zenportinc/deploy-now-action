@@ -1,9 +1,36 @@
-# JavaScript Action Template
+# Deploy now action
 
-This template offers an easy way to get started writing a javascript action with TypeScript compile time support, unit testing with Jest and using the GitHub Actions Toolkit.
+Action for deploying to [Now](https://zeit.co/now) and publish in the pull request a comment with a link.
 
-## Getting Started
+## Example
 
-See the walkthrough located [here](https://github.com/actions/toolkit/blob/master/docs/javascript-action.md).
+Assuming for a classic javascript application project:
 
-In addition to walking your through how to create an action, it also provides strategies for versioning, releasing and referencing your actions.
+```yaml
+name: "PR Checks"
+on: [pull_request]
+
+jobs:
+  deploy:
+    name: Deploy to now
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@master
+
+      # If you can skip this part if you want to let Now do the builds
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to now
+        uses: zenportinc/deploy-now-action@v1
+        with:
+          zeit-token: ${{ secrets.ZEIT_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          # Don't forget to replace REPOSITORY_NAME by your repository name
+          repo-dir: ${{ format('{0}/{1}', runner.workspace, 'REPOSITORY_NAME') }}
+          # optional, if you build in this job
+          build-dir: 'build'
+```
