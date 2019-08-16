@@ -21,13 +21,17 @@ async function run() {
 }
 
 async function deploy(path: string, token: string, options: object) {
-  for await (const event of now.createDeployment(path, {
+  for await (const event of now.createLegacyDeployment(path, {
     token,
     ...options
   })) {
-    if (event.type === 'ready') {
-      console.log(event.payload);
-      return event.payload;
+    core.debug(event.payload);
+
+    switch (event.type) {
+      case 'ready':
+        return event.payload;
+      case 'error':
+        throw event.payload;
     }
   }
 }
@@ -35,10 +39,9 @@ async function deploy(path: string, token: string, options: object) {
 async function postComment(body: string, token: string) {
   const octokit = new github.GitHub(token);
 
-  await octokit.issues.createComment({
-    ...github.context.issue,
-    body,
-  })
+  const { owner, repo, number: issue_number } = github.context.issue;
+
+  await octokit.issues.createComment({ owner, repo, issue_number, body })
 }
 
 run();
