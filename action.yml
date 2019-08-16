@@ -5,8 +5,14 @@ inputs:
   zeit-token:
     description: 'Zeit authentication token'
     required: true
-  folder:
-    description: 'Folder to deploy'
+  repo-token:
+    description: 'Github repository token'
+    required: true
+  repo-dir:
+    description: 'Repository directory'
+    required: true
+  build-dir:
+    description: 'Build directory'
     required: false
 runs:
   using: 'node12'
