@@ -14,6 +14,9 @@ inputs:
   build-dir:
     description: 'Build directory'
     required: false
+  config:
+    description: 'Config now file path'
+    required: false
 runs:
   using: 'node12'
   main: 'lib/main.js'

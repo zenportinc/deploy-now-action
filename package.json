@@ -1,8 +1,8 @@
 {
-  "name": "node12-template-action",
+  "name": "deploy-now-action",
   "version": "0.0.0",
   "private": true,
-  "description": "Node 12 template action",
+  "description": "Deploy to now action",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -10,15 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/node12-template.git"
+    "url": "git+https://github.com/zenportinc/deploy-now-action.git"
   },
   "keywords": [
     "actions",
-    "node",
-    "setup"
+    "now.sh",
+    "deploy"
   ],
-  "author": "GitHub",
-  "license": "MIT",
+  "author": "Zenport",
   "dependencies": {
     "@actions/core": "^1.0.0",
     "@actions/exec": "^1.0.0",
